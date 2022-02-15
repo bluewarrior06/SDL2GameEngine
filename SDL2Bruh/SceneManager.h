@@ -1,13 +1,16 @@
 #pragma once
 
-#include "SDLWindow.h"
+#include "ObjectGroup.h"
 class SceneManager
 {
-	Window* window;
-	WindowData* window_data;
+public:
+	ObjectGroup* object_group_background;
+	ObjectGroup* object_group_main;
+	ObjectGroup* object_group_foreground;
 
-	void Load();//clears the scene and loads the next scene
-	void Overload();//loads the next scene without clearing the last scene
-	void Clear();
+
+	SceneManager();
+	~SceneManager();
+	
 };
 

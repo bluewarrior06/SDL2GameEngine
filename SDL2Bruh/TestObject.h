@@ -1,8 +1,11 @@
 #pragma once
 
-#include "Object.h"
 
-class TestObject : public Object
+#include "SDL.h"
+
+class TestObject
 {
-	void Draw();
+public:
+
+
 };

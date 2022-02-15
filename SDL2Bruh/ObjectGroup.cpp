@@ -7,7 +7,7 @@
 
 ObjectGroup::~ObjectGroup()
 {
-
+	this->Clear();
 }
 
 void ObjectGroup::Update()
@@ -16,7 +16,7 @@ void ObjectGroup::Update()
 	{
 		if (o != nullptr)
 		{
-			o->Update();
+			o->MainUpdate();
 		}
 	}
 }
@@ -27,7 +27,7 @@ void ObjectGroup::Draw()
 	{
 		if (o != nullptr)
 		{
-			o->Draw();
+			o->MainDraw();
 		}
 	}
 }
@@ -40,6 +40,8 @@ void ObjectGroup::Clear()
 		this->objects.pop_back();
 	}
 }
+
+//doesnt work
 //getting objects
 std::vector<Object*>* ObjectGroup::GetObject(std::string name)
 {
@@ -57,38 +59,6 @@ std::vector<Object*>* ObjectGroup::GetObject(std::string name)
 	return return_objects;
 }
 
-std::vector<Object*>* ObjectGroup::GetObjectByID(int ID)
-{
-	std::vector<Object*>* return_objects = new std::vector<Object*>();
-	for (Object* o : this->objects)
-	{
-		if (o != nullptr)
-		{
-			if (o->ID == ID)
-			{
-				return_objects->push_back(o);
-			}
-		}
-	}
-	return return_objects;
-}
-
-std::vector<Object*>* ObjectGroup::GetObjectByGroup(std::string group)
-{
-	std::vector<Object*>* return_objects = new std::vector<Object*>();
-	for (Object* o : this->objects)
-	{
-		if (o != nullptr)
-		{
-			if (o->group == group)
-			{
-				return_objects->push_back(o);
-			}
-		}
-	}
-	return return_objects;
-}
-
 void ObjectGroup::AddObject(Object* object)
 {
 	this->objects.push_back(object);
@@ -96,5 +66,17 @@ void ObjectGroup::AddObject(Object* object)
 
 void ObjectGroup::RemoveObject(Object* object)
 {
-
+	int i = 0;
+	for (Object* o : this->objects)
+	{
+		if (o != nullptr)
+		{
+			if (o == object)
+			{
+				delete o;
+				this->objects.erase(this->objects.begin() + i);
+			}
+		}
+		i++;
+	}
 }

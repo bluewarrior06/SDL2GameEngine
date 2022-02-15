@@ -6,7 +6,7 @@ Window::Window(const char title[], int x, int y, int width, int height, int logi
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	this->window = SDL_CreateWindow(title, x, y, width, height, flags);
-	this->window_renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
+	this->window_renderer = SDL_CreateRenderer(this->window, -1, 0);
 	this->window_surface = SDL_GetWindowSurface(this->window);
 	
 	SDL_RenderSetLogicalSize(this->window_renderer, logical_width,logical_height);
@@ -20,28 +20,18 @@ Window::~Window()
 }
 
 
-void Window::Clear() { SDL_RenderClear(this->window_renderer); }
+void Window::Clear() {
+	SDL_SetRenderDrawColor(this->window_renderer, this->background_r, this->background_g, this->background_b, 1);
+	SDL_RenderClear(this->window_renderer);
+	SDL_SetRenderDrawColor(this->window_renderer, 0, 0, 0, 0);
+}
 void Window::Render() { SDL_RenderPresent(this->window_renderer); }
 
-void Window::HandleEvents()
+
+
+void Window::RenderCopy(SDL_Rect* rect, SDL_Texture* texture)
 {
-	//main event handler
-	while (SDL_PollEvent(&this->events))
-	{
-		switch (this->events.type)
-		{
-		//quitting
-		case SDL_QUIT:
-			this->Running = false;
-			break;
-		case SDL_KEYDOWN:
-			if (this->events.key.keysym.sym == SDLK_ESCAPE)
-			{
-				this->Running = false;
-			}
-			break;
-		}
-	}
+	SDL_RenderCopy(this->window_renderer, texture, nullptr, rect);
 }
 
 //image loading
@@ -60,32 +50,40 @@ SDL_Texture* Window::LoadTexture(const char path[])
 
 WindowData::WindowData()
 { 
-	this->window_object_group = new ObjectGroup();
+	this->window_scene_manager = new SceneManager();
 	this->gravity = b2Vec2(0, 98);
 	this->world = new b2World(this->gravity);
 }
 WindowData::WindowData(Window* window)
 {
+	this->window_scene_manager = new SceneManager();
 	this->window = window;
-	this->window_object_group = new ObjectGroup();
 	this->gravity = b2Vec2(0, 98);
 	this->world = new b2World(this->gravity);
 }
 WindowData::WindowData(Window* window, b2Vec2 gravity)
 {
+	this->window_scene_manager = new SceneManager();
 	this->window = window;
-	this->window_object_group = new ObjectGroup();
 	this->gravity = gravity;
 	this->world = new b2World(this->gravity);
 }
 
 
-WindowData::~WindowData(){delete this->window_object_group;}
+WindowData::~WindowData() { delete this->window_scene_manager; }
 
 
 void WindowData::Update()
 {
-	this->window_object_group->Update();
 	this->world->Step(1. / 60., 6, 2);
+	this->window_scene_manager->object_group_background->Update();
+	this->window_scene_manager->object_group_main->Update();
+	this->window_scene_manager->object_group_foreground->Update();
+
+
 }
-void WindowData::Draw(){this->window_object_group->Draw();}
+void WindowData::Draw(){ 
+	this->window_scene_manager->object_group_background->Draw();
+	this->window_scene_manager->object_group_main->Draw();
+	this->window_scene_manager->object_group_foreground->Draw();
+}

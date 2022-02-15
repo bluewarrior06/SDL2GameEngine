@@ -1,17 +1,11 @@
 #include "Object.h"
 #include <iostream>
-
-Object::Object()
-{}
-
-Object::~Object()
-{}
-
-void Object::Update()
+void Object::MainUpdate() { this->ObjectUpdate(); }
+void Object::ObjectUpdate()
 {
+	
 }
 
-void Object::Draw()
-{
-	std::cout << "bruh" << std::endl;
-}
+void Object::MainDraw() { this->ObjectDraw(); }
+void Object::ObjectDraw()
+{}

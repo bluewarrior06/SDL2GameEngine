@@ -2,10 +2,9 @@
 
 #include <string>
 #include <vector>
+
+//just got an error on headers including eachother, oh boy I feel like these header inclusions are only gonna get worse and messier
 #include "Object.h"
-
-
-	
 
 //container for objects
 class ObjectGroup
@@ -19,15 +18,11 @@ public:
 
 	void Update();
 	void Draw();
-
 	void Clear();
 
 
 	//havent tested these
 	//std::array<Object*, OBJECTSIZE> GetAllObjects();
 	std::vector<Object*>* GetObject(std::string name);
-	std::vector<Object*>* GetObjectByID(int ID);
-	std::vector<Object*>* GetObjectByGroup(std::string group);
-
 };
 
