@@ -70,20 +70,20 @@ WindowData::WindowData(Window* window, b2Vec2 gravity)
 }
 
 
-WindowData::~WindowData() { delete this->window_scene_manager; }
+WindowData::~WindowData() {
+	delete this->window_scene_manager;
+	delete this->world;
+}
 
 
 void WindowData::Update()
 {
 	this->world->Step(1. / 60., 6, 2);
-	this->window_scene_manager->object_group_background->Update();
-	this->window_scene_manager->object_group_main->Update();
-	this->window_scene_manager->object_group_foreground->Update();
+	this->window_scene_manager->Update();
+
 
 
 }
 void WindowData::Draw(){ 
-	this->window_scene_manager->object_group_background->Draw();
-	this->window_scene_manager->object_group_main->Draw();
-	this->window_scene_manager->object_group_foreground->Draw();
+	this->window_scene_manager->Draw();
 }
