@@ -20,14 +20,11 @@ float b = 0;
 float delta_time = 0;
 
 int main(int argc, char* argv[])
-{,k
+{
 	//mainwindow
 	Window* main_window = new Window("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 512, 512, 512, 512, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
 	WindowData* main_window_data = new WindowData(main_window);
-
-	
-
 
 
 	Object* o = new Object();
