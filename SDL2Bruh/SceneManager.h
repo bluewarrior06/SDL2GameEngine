@@ -1,24 +1,42 @@
 #pragma once
+#include <string>
+#include <map>
 
-#include "ObjectGroup.h"
+#include <vector>
+
+#include "ObjectComponent.h"
+
+//level information that it stored inside a scene
+class SceneMetaData
+{
+
+};
+
+class ObjectGroup
+{
+public:
+	std::vector<ObjectComponent::Object*> objects;
+
+	~ObjectGroup();
+
+	void AddObject(ObjectComponent::Object* o);
+	void RemoveObject(std::string object_name);
+	ObjectComponent::Object* GetObject(std::string object_name);
+};
+
+
 class SceneManager
 {
 public:
-	//this could be put on stack
-	ObjectGroup* object_group_background;
-	ObjectGroup* object_group_main;
-	ObjectGroup* object_group_foreground;
-	ObjectGroup* object_group_static; //never deletes when changing scene
-
-	ObjectGroup* object_group_audio;
-	ObjectGroup* object_group_audio_static; //never deletes when changing scene
-
-
+	ObjectGroup* object_main;
+	ObjectGroup* object_static;
+	
 	SceneManager();
 	~SceneManager();
 
-	void Update();
-	void Draw();
-	
+	void UpdateObjects();
+	void DrawObjects();
+	void UpdateObjectComponents();
+	void DrawObjectComponents();
 };
 

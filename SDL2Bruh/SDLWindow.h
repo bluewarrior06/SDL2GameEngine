@@ -5,12 +5,6 @@
 
 #include "SceneManager.h"
 
-
-enum InputType
-{
-	KEYBOARD,
-	MOUSE
-};
 //window class for rendering a window
 class Window
 {
@@ -35,8 +29,8 @@ public:
 	void Clear();
 	void Render();
 
-	void Pause();
-	void Unpause();
+	//void Pause();
+	//void Unpause();
 
 	void RenderCopy(SDL_Rect* rect, SDL_Texture* texture);
 
@@ -44,23 +38,23 @@ public:
 	SDL_Surface* LoadSurface(const char path[]);
 	SDL_Texture* LoadTexture(const char path[]);
 
-	bool Input();
-	
+	//bool Input();
+
+	//window stuff
+	void ResizeWindow(int w, int h);
+	void ReposWindow(int x, int y);
 };
 
 class WindowData
 {
 public:
-	Window* window;//not actually used for creating a window, but for just pointing to the window
-	//^ so its basically useless due to main always having it but I mean, better save than sorry :)))))) :DDDDDDDDDDDDDDD
-	SceneManager* window_scene_manager = new SceneManager();
-
+	Window* window;
 	b2Vec2 gravity;
 	b2World* world;
 
-	WindowData();
+	SceneManager* scene_manager;
+
 	WindowData(Window* window);
-	WindowData(Window* window, b2Vec2 gravity);
 
 	~WindowData();
 

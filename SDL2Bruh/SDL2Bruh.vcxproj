@@ -139,27 +139,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="ObjectGroup.cpp" />
-    <ClCompile Include="PhysicsObject.cpp" />
+    <ClCompile Include="ObjectComponent.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SDL2Bruh.cpp" />
     <ClCompile Include="SDLWindow.cpp" />
-    <ClCompile Include="TestObject.cpp" />
-    <ClCompile Include="WorldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="ObjectGroup.h" />
-    <ClInclude Include="PhysicsObject.h" />
+    <ClInclude Include="ObjectComponent.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SDLWindow.h" />
-    <ClInclude Include="TestObject.h" />
-    <ClInclude Include="WorldObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

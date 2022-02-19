@@ -1,46 +1,93 @@
 #include "SceneManager.h"
 
+ObjectGroup::~ObjectGroup()
+{
+	//delete all objects in vector
+	int i = 0;
+	for (ObjectComponent::Object* o : this->objects)
+	{
+		if (o != nullptr)
+		{
+			delete o;
+		}
+		i++;
+	}
+}
+//add object to object group
+void ObjectGroup::AddObject(ObjectComponent::Object* o)
+{
+	this->objects.push_back(o);
+}
+//remove object from object group
+void ObjectGroup::RemoveObject(std::string name)
+{
+	int i = 0;
+	for (ObjectComponent::Object* o : this->objects)
+	{
+		if (o != nullptr)
+		{
+			delete o;
+			this->objects.erase(this->objects.begin() + i);
+		}
+		i++;
+	}
+}
+
+
+
+
+
+
+
 SceneManager::SceneManager()
 {
-	this->object_group_background = new ObjectGroup();
-	this->object_group_main = new ObjectGroup();
-	this->object_group_foreground = new ObjectGroup();
-	this->object_group_static = new ObjectGroup();
-
-	this->object_group_audio = new ObjectGroup();
-	this->object_group_audio_static = new ObjectGroup();
-	
+	this->object_main = new ObjectGroup();
+	this->object_static = new ObjectGroup();
 }
 SceneManager::~SceneManager()
 {
-	delete this->object_group_background;
-	delete this->object_group_main;
-	delete this->object_group_foreground;
-	delete this->object_group_static;
-
-	delete this->object_group_audio;
-	delete this->object_group_audio_static;
+	delete this->object_main;
+	delete this->object_static;
 }
 
-void SceneManager::Update()
+//updaring and rendering all objects and their components
+void SceneManager::UpdateObjects()
 {
-	this->object_group_background->Update();
-	this->object_group_main->Update();
-	this->object_group_foreground->Update();
-	this->object_group_static->Update();
-
-	this->object_group_audio->Update();
-	this->object_group_static->Update();
-
+	for (ObjectComponent::Object* o : this->object_main->objects)
+	{
+		if (o != nullptr)
+		{
+			o->Update();
+		}
+	}
 }
-
-void SceneManager::Draw()
+void SceneManager::DrawObjects()
 {
-	this->object_group_background->Draw();
-	this->object_group_main->Draw();
-	this->object_group_foreground->Draw();
-	this->object_group_static->Draw();
-
-	this->object_group_audio->Draw();
-	this->object_group_static->Draw();
+	for (ObjectComponent::Object* o : this->object_main->objects)
+	{
+		if (o != nullptr)
+		{
+			o->UpdateComponents();
+		}
+	}
+}
+void SceneManager::UpdateObjectComponents()
+{
+	for (ObjectComponent::Object* o : this->object_main->objects)
+	{
+		if (o != nullptr)
+		{
+			o->Draw();
+		}
+	}
+}
+void SceneManager::DrawObjectComponents()
+{
+	for (ObjectComponent::Object* o : this->object_main->objects)
+	{
+		if (o != nullptr)
+		{
+			o->DrawComponents();
+		}
+	}
 }
