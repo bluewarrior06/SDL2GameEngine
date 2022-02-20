@@ -139,15 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="ObjectComponent.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SDL2Bruh.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="SDLWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Input.h" />
     <ClInclude Include="ObjectComponent.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />

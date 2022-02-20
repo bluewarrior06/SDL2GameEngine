@@ -8,8 +8,6 @@ Window::Window(const char title[], int x, int y, int width, int height, int logi
 	this->window = SDL_CreateWindow(title, x, y, width, height, flags);
 	this->window_renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
 	this->window_surface = SDL_GetWindowSurface(this->window);
-
-	
 	
 	//lock window renderer to size, fixes screen resizing issues.
 	SDL_RenderSetLogicalSize(this->window_renderer, logical_width,logical_height);
@@ -33,9 +31,32 @@ void Window::Render() { SDL_RenderPresent(this->window_renderer); }
 //simple drawing method
 void Window::RenderCopy(SDL_Rect* rect, SDL_Texture* texture)
 {
-	
-	SDL_RenderCopy(this->window_renderer, texture, nullptr, rect);
+	//create rect position
+	SDL_Rect r;
+	r.w = rect->w;
+	r.h = rect->h;
+
+	r.x = rect->x - (rect->w / 2.0);
+	r.y = rect->y - (rect->h / 2.0);
+
+	//render it
+	SDL_RenderCopy(this->window_renderer, texture, nullptr, &r);
 }
+//simple drawing method for automatic scaling
+void Window::RenderCopyAuto(SDL_Point* point, SDL_Texture* texture, float scale)
+{
+	//create rect position
+	SDL_Rect r;
+	r.w = Window::GetTextureSize(texture).x * scale;
+	r.h = Window::GetTextureSize(texture).y * scale;
+
+	r.x = point->x - (r.w / 2.0);
+	r.y = point->y - (r.h / 2.0);
+
+	//render it
+	SDL_RenderCopy(this->window_renderer, texture, nullptr, &r);
+}
+
 //image loading
 SDL_Surface* Window::LoadSurface(const char path[])
 {
@@ -51,10 +72,18 @@ SDL_Texture* Window::LoadTexture(const char path[])
 	return t;
 }
 
+//get the size of a texture
+SDL_Point Window::GetTextureSize(SDL_Texture* texture)
+{
+	SDL_Point rp; //return point
+	SDL_QueryTexture(texture, NULL, NULL, &rp.x, &rp.y);
+	return rp;
+}
+
 //repositioning and resizing the window
 void Window::ResizeWindow(int w, int h) { SDL_SetWindowSize(this->window, w, h); }
 void Window::ReposWindow(int x, int y) { SDL_SetWindowPosition(this->window, x, y); }
-
+void Window::SetFullscreen(SDL_WindowFlags flags) { SDL_SetWindowFullscreen(this->window, flags); }
 
 
 
@@ -87,64 +116,4 @@ void WindowData::MainEventUpdate()
 		{
 		}
 	}
-}
-//keyboard input
-bool WindowData::Input_IsKeyDown(SDL_Keycode key)
-{
-	bool rv = false;
-	this->is_checking_event = false;
-	while (SDL_PollEvent(&this->event))
-	{
-		std::cout << "bruh\n";
-		switch (this->event.type)
-		{
-		case SDL_KEYDOWN:
-			this->is_checking_event = true;
-			
-			rv = this->event.key.keysym.sym == key;
-			break;
-		}
-	}
-	this->is_checking_event = true;
-	return rv;
-}
-bool WindowData::Input_IsKeyHeld(SDL_Scancode key)
-{
-	const Uint8* keys = SDL_GetKeyboardState(NULL);
-	return keys[key];
-}
-bool WindowData::Input_IsKeyUp(SDL_Keycode key)
-{
-	bool rv = false;
-	this->is_checking_event = false;
-	while (SDL_PollEvent(&this->event))
-	{
-		switch (this->event.type)
-		{
-		case SDL_KEYUP:
-			this->is_checking_event = true;
-
-			rv = this->event.key.keysym.sym == key;
-			break;
-		}
-	}
-	this->is_checking_event = true;
-	return rv;
-}
-bool WindowData::Input_Action_Quit()
-{
-	bool rv = false;
-	this->is_checking_event = false;
-	while (SDL_PollEvent(&this->event))
-	{
-		switch (this->event.type)
-		{
-		case SDL_QUIT:
-			rv = true;
-			break;
-		}
-	}
-	this->is_checking_event = true;
-	return rv;
-	
 }

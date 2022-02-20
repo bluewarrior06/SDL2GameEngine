@@ -27,25 +27,35 @@ public:
 	Window(const char title[], int x, int y, int width, int height, int logical_width, int logical_height, Uint32 flags);
 	~Window();
 
+	//screen buffer stuff
 	void Clear();
 	void Render();
 
 	//void Pause();
 	//void Unpause();
 
+	//rendering
 	void RenderCopy(SDL_Rect* rect, SDL_Texture* texture);
+	void RenderCopyAuto(SDL_Point* point, SDL_Texture* texture, float scale);//automatically renders the texture as the size of the texture
 
-	//DO NOT USE STANDALONE
+	void RenderText(TTF_Font* font, std::string text, SDL_Color color, SDL_Rect* rect);
+
+	//image loading
 	SDL_Surface* LoadSurface(const char path[]);
 	SDL_Texture* LoadTexture(const char path[]);
+
+	//gets the size of a texture
+	SDL_Point GetTextureSize(SDL_Texture* texture);
 
 	//bool Input();
 
 	//window stuff
 	void ResizeWindow(int w, int h);
 	void ReposWindow(int x, int y);
+	void SetFullscreen(SDL_WindowFlags flags);
 
-	void RenderText(TTF_Font* font, std::string text, SDL_Color color, SDL_Rect* rect);
+
+	
 };
 
 class WindowData
@@ -67,9 +77,5 @@ public:
 	bool is_checking_event; //switch for main event to input function event, this would probably break on multiple threads.
 
 	void MainEventUpdate();//sdl2 needs a main event loops or it become brokey and unresponsive.
-
-	bool Input_IsKeyDown(SDL_Keycode key);
-	bool Input_IsKeyHeld(SDL_Scancode key);
-	bool Input_IsKeyUp(SDL_Keycode key);
-	bool Input_Action_Quit();
 };
+
