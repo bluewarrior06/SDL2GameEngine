@@ -51,43 +51,43 @@ SceneManager::~SceneManager()
 }
 
 //updaring and rendering all objects and their components
-void SceneManager::UpdateObjects()
+void SceneManager::UpdateObjects(double delta_time)
 {
 	for (ObjectComponent::Object* o : this->object_main->objects)
 	{
 		if (o != nullptr)
 		{
-			o->Update();
+			o->Update(delta_time);
 		}
 	}
 }
-void SceneManager::DrawObjects()
+void SceneManager::DrawObjects(double delta_time)
 {
 	for (ObjectComponent::Object* o : this->object_main->objects)
 	{
 		if (o != nullptr)
 		{
-			o->UpdateComponents();
+			o->UpdateComponents(delta_time);
 		}
 	}
 }
-void SceneManager::UpdateObjectComponents()
+void SceneManager::UpdateObjectComponents(double delta_time)
 {
 	for (ObjectComponent::Object* o : this->object_main->objects)
 	{
 		if (o != nullptr)
 		{
-			o->Draw();
+			o->Draw(delta_time);
 		}
 	}
 }
-void SceneManager::DrawObjectComponents()
+void SceneManager::DrawObjectComponents(double delta_time)
 {
 	for (ObjectComponent::Object* o : this->object_main->objects)
 	{
 		if (o != nullptr)
 		{
-			o->DrawComponents();
+			o->DrawComponents(delta_time);
 		}
 	}
 }

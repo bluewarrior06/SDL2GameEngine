@@ -1,8 +1,46 @@
 #include "ObjectComponent.h"
 //clear all components in the object
 ObjectComponent::Component::Component() { this->component_name = "EmptyComponent"; }
+void ObjectComponent::Component::Update(double d) { std::cout << "bruh\n"; }
 
 
+//add component to vector
+void ObjectComponent::Component::AddComponent(Component* component)
+{
+	this->component_list.push_back(component);
+}
+//delete component depending on name
+void ObjectComponent::Component::RemoveComponent(std::string name)
+{
+	int i = 0;
+	for (Component* c : this->component_list)
+	{
+		if (c != nullptr)
+		{
+			if (c->component_name == name)
+			{
+				delete c;
+				this->component_list.erase(this->component_list.begin() + i);
+			}
+		}
+		i++;
+	}
+}
+//return object component
+ObjectComponent::Component* ObjectComponent::Component::GetComponent(std::string component_name)
+{
+	for (Component* c : this->component_list)
+	{
+		if (c != nullptr)
+		{
+			if (c->component_name == component_name)
+			{
+				return c;
+			}
+		}
+	}
+	return nullptr;
+}
 
 
 
@@ -19,24 +57,24 @@ ObjectComponent::Object::~Object()
 	}
 }
 //Update all components
-void ObjectComponent::Object::UpdateComponents()
+void ObjectComponent::Object::UpdateComponents(double delta_time)
 {
 	for (Component* o : this->components)
 	{
 		if (o != nullptr)
 		{
-			o->Update();
+			o->Update(delta_time);
 		}
 	}
 }
 //Draw all components
-void ObjectComponent::Object::DrawComponents()
+void ObjectComponent::Object::DrawComponents(double delta_time)
 {
 	for (Component* o : this->components)
 	{
 		if (o != nullptr)
 		{
-			o->Draw();
+			o->Draw(delta_time);
 		}
 	}
 }
@@ -74,6 +112,7 @@ ObjectComponent::Component* ObjectComponent::Object::GetComponent(std::string co
 //add a component too an object
 void ObjectComponent::AddComponent(Object* o, Component* c)
 {
+	c->component_list = o->components;
 	o->components.push_back(c);
 }
 //delete component depending on name
@@ -113,3 +152,7 @@ ObjectComponent::Object* ObjectComponent::CreateObject()
 {
 	return new ObjectComponent::Object();
 }
+
+
+
+//world object class
