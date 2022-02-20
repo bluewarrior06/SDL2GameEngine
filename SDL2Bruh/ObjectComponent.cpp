@@ -26,26 +26,9 @@ void ObjectComponent::Component::RemoveComponent(std::string name)
 		i++;
 	}
 }
-//return object component
-ObjectComponent::Component* ObjectComponent::Component::GetComponent(std::string component_name)
-{
-	for (Component* c : this->component_list)
-	{
-		if (c != nullptr)
-		{
-			if (c->component_name == component_name)
-			{
-				return c;
-			}
-		}
-	}
-	return nullptr;
-}
 
 
-
-
-
+/*
 ObjectComponent::Object::~Object()
 {
 	int i = 0;
@@ -55,7 +38,9 @@ ObjectComponent::Object::~Object()
 		this->components.pop_back();
 		i++;
 	}
-}
+}*/
+
+
 //Update all components
 void ObjectComponent::Object::UpdateComponents(double delta_time)
 {
@@ -94,13 +79,6 @@ void ObjectComponent::Object::RemoveComponent(std::string component_name)
 {
 	ObjectComponent::RemoveComponent(this, component_name);
 }
-//get component from object
-ObjectComponent::Component* ObjectComponent::Object::GetComponent(std::string component_name)
-{
-	return ObjectComponent::GetComponent(this, component_name);
-}
-
-
 
 
 
@@ -132,21 +110,6 @@ void ObjectComponent::RemoveComponent(Object* o, std::string name)
 		i++;
 	}
 }
-//return object component
-ObjectComponent::Component* ObjectComponent::GetComponent(Object* o, std::string component_name)
-{
-	for (Component* c : o->components)
-	{
-		if (c != nullptr)
-		{
-			if (c->component_name == component_name)
-			{
-				return c;
-			}
-		}
-	}
-	return nullptr;
-}
 //creates a new object by function
 ObjectComponent::Object* ObjectComponent::CreateObject()
 {
@@ -155,4 +118,16 @@ ObjectComponent::Object* ObjectComponent::CreateObject()
 
 
 
-//world object class
+
+//get component
+template<class _ComponentType>
+_ComponentType ObjectComponent::Component_GetComponent(ObjectComponent::Component* component)
+{
+	for (Component* c : component->component_list)
+	{
+		if (c != nullptr)
+		{
+
+		}
+	}
+}

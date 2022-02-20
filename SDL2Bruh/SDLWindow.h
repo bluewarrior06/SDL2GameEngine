@@ -6,10 +6,16 @@
 
 #include "SceneManager.h"
 
+#include "boost/archive/text_iarchive.hpp"
+#include "boost/archive/text_oarchive.hpp"
+
+
 //window class for rendering a window
 class Window
 {
+
 public:
+	
 	
 	SDL_Window* window;
 	SDL_Renderer* window_renderer;
@@ -54,28 +60,10 @@ public:
 	void ReposWindow(int x, int y);
 	void SetFullscreen(SDL_WindowFlags flags);
 
+	
 
 	
 };
 
-class WindowData
-{
-public:
-	//window pointer
-	Window* window;
 
-	WindowData(Window* window);
-	~WindowData();
-
-	//scene information
-	b2Vec2 gravity;
-	b2World* world;
-	SceneManager* scene_manager;
-
-	//events
-	SDL_Event event;
-	bool is_checking_event; //switch for main event to input function event, this would probably break on multiple threads.
-
-	void MainEventUpdate();//sdl2 needs a main event loops or it become brokey and unresponsive.
-};
 

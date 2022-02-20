@@ -2,7 +2,7 @@
 #include <SDL.h>
 #include <vector>
 
-static bool updaing_main_input = true;
+static	 bool updaing_main_input;
 static SDL_Event MAIN_EVENT;
 
 enum InputLayout

@@ -1,5 +1,10 @@
 #include "SceneManager.h"
 
+#include "boost/archive/text_iarchive.hpp"
+#include "boost/archive/text_oarchive.hpp"
+
+#include <filesystem>
+
 ObjectGroup::~ObjectGroup()
 {
 	//delete all objects in vector
@@ -32,6 +37,11 @@ void ObjectGroup::RemoveObject(std::string name)
 		i++;
 	}
 }
+//delete all objects and clear the object group
+void ObjectGroup::Clear()
+{
+	this->objects.clear();
+}
 
 
 
@@ -49,7 +59,6 @@ SceneManager::~SceneManager()
 	delete this->object_main;
 	delete this->object_static;
 }
-
 //updaring and rendering all objects and their components
 void SceneManager::UpdateObjects(double delta_time)
 {
@@ -90,4 +99,11 @@ void SceneManager::DrawObjectComponents(double delta_time)
 			o->DrawComponents(delta_time);
 		}
 	}
+}
+
+
+//modding stuff
+void SceneManager::SetModName(std::string mod_name)
+{
+	this->current_mod_name = mod_name;
 }
