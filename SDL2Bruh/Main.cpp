@@ -14,8 +14,7 @@
 #include <fstream>
 #include "boost/archive/text_oarchive.hpp"
 
-#include "BO_WorldObject.h"
-#include "BC_Transformation.h"
+#include "ObjectComponent.h"
 /*
 nuget
 
@@ -42,11 +41,16 @@ int main(int argc, char* argv[])
 
 	WindowData* main_window_data = new WindowData(main_window);
 
-	BO_WorldObject* obj = new BO_WorldObject();
+	ObjectComponent::Object* o = new ObjectComponent::Object();
+	ObjectComponent::Component* c = new ObjectComponent::Component();
+	ObjectComponent::DerivedComponent* dc = new ObjectComponent::DerivedComponent();
 
-	main_window_data->scene_manager->object_main->AddObject(obj);
 
-	
+	o->AddComponent(c);
+	o->AddComponent(dc);
+
+
+	std::cout << c->GetComponent<ObjectComponent::DerivedComponent>("BruhMoment")->b;
 	//mainloop
 	while (main_window->Running)
 	{
@@ -59,15 +63,13 @@ int main(int argc, char* argv[])
 		Input::UpdateMainInput();
 
 		//update game
-		main_window_data->scene_manager->UpdateObjects(delta_time);
-		main_window_data->scene_manager->UpdateObjectComponents(delta_time);
+		main_window_data->scene_manager->Update(delta_time);
 		main_window_data->world->Step((float32)1. / (float32)60., 6, 2);
 
 		//draw game
 		main_window->Clear();
 		//main_window_data->Draw();
-		main_window_data->scene_manager->DrawObjects(delta_time);
-		main_window_data->scene_manager->DrawObjectComponents(delta_time);
+		main_window_data->scene_manager->Draw(delta_time);
 		main_window->Render();
 
 		//after performance stuff

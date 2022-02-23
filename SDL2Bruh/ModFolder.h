@@ -6,7 +6,6 @@
 
 #define PATH std::filesystem::current_path()
 
-
 //directory paths for mods
 static std::vector<std::string> gathered_dirs;
 static std::vector<std::string> gathered_dirs_filenames;

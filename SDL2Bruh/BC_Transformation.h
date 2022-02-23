@@ -5,10 +5,11 @@
 class BC_Transformation : public ObjectComponent::Component
 {
 public:
-	b2Vec2 position;
-
+	b2Vec2 position;	
+	
 	//moves the position ar
 	void Transform(float x, float y);
 	void Transform(b2Vec2 dir);
 };
 
+			

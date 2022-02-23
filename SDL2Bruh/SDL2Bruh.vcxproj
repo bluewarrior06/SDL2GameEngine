@@ -142,7 +142,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BC_Transformation.cpp" />
-    <ClCompile Include="BO_WorldObject.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="ModFolder.cpp" />
     <ClCompile Include="ObjectComponent.cpp" />
@@ -156,7 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BC_Transformation.h" />
-    <ClInclude Include="BO_WorldObject.h" />
     <ClInclude Include="INCLUDE.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="ModFolder.h" />

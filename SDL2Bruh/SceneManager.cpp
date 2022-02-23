@@ -1,8 +1,5 @@
 #include "SceneManager.h"
 
-#include "boost/archive/text_iarchive.hpp"
-#include "boost/archive/text_oarchive.hpp"
-
 #include <filesystem>
 
 ObjectGroup::~ObjectGroup()
@@ -60,7 +57,7 @@ SceneManager::~SceneManager()
 	delete this->object_static;
 }
 //updaring and rendering all objects and their components
-void SceneManager::UpdateObjects(double delta_time)
+void SceneManager::Update(double delta_time)
 {
 	for (ObjectComponent::Object* o : this->object_main->objects)
 	{
@@ -70,17 +67,7 @@ void SceneManager::UpdateObjects(double delta_time)
 		}
 	}
 }
-void SceneManager::DrawObjects(double delta_time)
-{
-	for (ObjectComponent::Object* o : this->object_main->objects)
-	{
-		if (o != nullptr)
-		{
-			o->UpdateComponents(delta_time);
-		}
-	}
-}
-void SceneManager::UpdateObjectComponents(double delta_time)
+void SceneManager::Draw(double delta_time)
 {
 	for (ObjectComponent::Object* o : this->object_main->objects)
 	{
@@ -90,20 +77,4 @@ void SceneManager::UpdateObjectComponents(double delta_time)
 		}
 	}
 }
-void SceneManager::DrawObjectComponents(double delta_time)
-{
-	for (ObjectComponent::Object* o : this->object_main->objects)
-	{
-		if (o != nullptr)
-		{
-			o->DrawComponents(delta_time);
-		}
-	}
-}
 
-
-//modding stuff
-void SceneManager::SetModName(std::string mod_name)
-{
-	this->current_mod_name = mod_name;
-}

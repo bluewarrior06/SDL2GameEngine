@@ -2,66 +2,77 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <string>
 
 
 
 //think of this like unitys component system, but extremely simple (not simpler, just simple) and no child nodes.
 namespace ObjectComponent
 {
+	//main container class
 	
-	//root component for other components
+	//dont use as a component, just as a base component to make more base components or components in general
 	class Component
 	{
 	public:
-		std::string component_name;
+		//component information
+		static inline std::string name = "RootComponent";
+		std::vector<Component*>* root_component_list;
 
-		Component();
-		~Component() {};
-		//main component stuffs
-		virtual void Update(double delta_time);
-		virtual void Draw(double delta_time) {};
+		//get a component in the list
+		//          V return type
+		template <class _Component>_Component* GetComponent(std::string name)
+		{
+			for (int i = 0; i < this->root_component_list->size(); i++)
+			{
+				if (this->root_component_list->at(i) != nullptr)
+				{
+					if (this->root_component_list->at(i)->name == name)
+					{
+						return static_cast<_Component*>(this->root_component_list->at(i));
+					}
+				}
+			}
+		}
 
-		//way to communicate with other components in main object component list
-		std::vector<ObjectComponent::Component*> component_list;//pointer to object components
-
-		void AddComponent(Component* component);
+		void AddComponent(Component* c);
 		void RemoveComponent(std::string name);
 
-		template<class _Component> _Component* Get();
+		//component logic
+		void Update(double delta_time) {};
+		void Draw(double delta_time) {};
 	};
 
-	//root object, objects are made of components.
+	//test component, not supposed to be used practically
+	class DerivedComponent : public Component
+	{
+	public:
+		static inline std::string name = "BruhMoment";
+		static inline int b = 69420;
+	};
+
+	//main object class
+
+	//inheriting this object is only supposed to be used as a quick way to add components.
+	//eg. World Component - object with Transform component already in it, eg2. Entity - Object that holds a bunch of entity components (such as a rigidbody component, collision shape, AI component, etc etc...)
+	//FYI ONLY USE COMPONENTS ONCE IN THE LIST, well you can, but it would probably be a bit difficult at getting some other components with the same name.
 	class Object
 	{
 	public:
-		//object data
-		std::string object_name;
+		std::vector<Component*>* component_list;
 
-		//object
-		virtual void Update(double delta_time) {};
-		virtual void Draw(double delta_time) {};
+		Object();
+		~Object();
 
-		//handing components -it would probably better to a component array class or something
-		std::vector<ObjectComponent::Component*> components;
-		
-		void UpdateComponents(double delta_time);
-		void DrawComponents(double delta_time);
-
-		void AddComponent(Component* component);
+		void AddComponent(Component* c);
 		void RemoveComponent(std::string name);
+
+		void Update(double delta_time);
+		void Draw(double delta_time);
 	};
-	
-	void AddComponent(Object* o, Component* component);
-	void RemoveComponent(Object* o, std::string component_name);
 
-	template<class _ComponentType>
-	_ComponentType Component_GetComponent(Component* c);
 
-	template<class _ComponentType>
-	_ComponentType Object_GetComponent(Object* o);
 
-	//function used for quickly creating an object. useful for editor creating objects
-	Object* CreateObject();
 
 	/*
 	OCS - Object/Components
@@ -76,8 +87,5 @@ namespace ObjectComponent
 	Base component prefix - BC_
 	Default component prefix AC_
 	normal object prefix - C_
-
-
-	
 	*/
 }

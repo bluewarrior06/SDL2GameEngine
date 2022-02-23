@@ -1,133 +1,41 @@
 #include "ObjectComponent.h"
-//clear all components in the object
-ObjectComponent::Component::Component() { this->component_name = "EmptyComponent"; }
-void ObjectComponent::Component::Update(double d) { std::cout << "bruh\n"; }
-
-
-//add component to vector
-void ObjectComponent::Component::AddComponent(Component* component)
+//object constructor
+ObjectComponent::Object::Object()
 {
-	this->component_list.push_back(component);
+	this->component_list = new std::vector<ObjectComponent::Component*>();
 }
-//delete component depending on name
-void ObjectComponent::Component::RemoveComponent(std::string name)
-{
-	int i = 0;
-	for (Component* c : this->component_list)
-	{
-		if (c != nullptr)
-		{
-			if (c->component_name == name)
-			{
-				delete c;
-				this->component_list.erase(this->component_list.begin() + i);
-			}
-		}
-		i++;
-	}
-}
-
-
-/*
+//object destructor
 ObjectComponent::Object::~Object()
 {
-	int i = 0;
-	for (Component* o : this->components)
-	{
-		delete o;
-		this->components.pop_back();
-		i++;
-	}
-}*/
-
-
-//Update all components
-void ObjectComponent::Object::UpdateComponents(double delta_time)
-{
-	for (Component* o : this->components)
-	{
-		if (o != nullptr)
-		{
-			o->Update(delta_time);
-		}
-	}
-}
-//Draw all components
-void ObjectComponent::Object::DrawComponents(double delta_time)
-{
-	for (Component* o : this->components)
-	{
-		if (o != nullptr)
-		{
-			o->Draw(delta_time);
-		}
-	}
+	//free everything
+	this->component_list->clear();
+	delete this->component_list;
 }
 
 
 
-
-
-
-//add component to component vector
+//adds a component too the list
 void ObjectComponent::Object::AddComponent(Component* c)
 {
-	ObjectComponent::AddComponent(this, c);
+	//assign root list to component and add it
+	c->root_component_list = this->component_list;
+	this->component_list->push_back(c);
 }
-//remove components from vector
-void ObjectComponent::Object::RemoveComponent(std::string component_name)
+//removes a component from the list
+
+//logic to game
+void ObjectComponent::Object::Update(double delta_time)
 {
-	ObjectComponent::RemoveComponent(this, component_name);
-}
-
-
-
-
-
-
-
-
-//add a component too an object
-void ObjectComponent::AddComponent(Object* o, Component* c)
-{
-	c->component_list = o->components;
-	o->components.push_back(c);
-}
-//delete component depending on name
-void ObjectComponent::RemoveComponent(Object* o, std::string name)
-{
-	int i = 0;
-	for (Component* c : o->components)
+	for (int i = 0; i < this->component_list->size(); i++)
 	{
-		if (c != nullptr)
-		{
-			if (c->component_name == name)
-			{
-				delete c;
-				o->components.erase(o->components.begin() + i);
-			}
-		}
-		i++;
+		this->component_list->at(i)->Update(delta_time);
 	}
 }
-//creates a new object by function
-ObjectComponent::Object* ObjectComponent::CreateObject()
+void ObjectComponent::Object::Draw(double delta_time)
 {
-	return new ObjectComponent::Object();
-}
-
-
-
-
-//get component
-template<class _ComponentType>
-_ComponentType ObjectComponent::Component_GetComponent(ObjectComponent::Component* component)
-{
-	for (Component* c : component->component_list)
+	for (int i = 0; i < this->component_list->size(); i++)
 	{
-		if (c != nullptr)
-		{
-
-		}
+		this->component_list->at(i)->Update(delta_time);
 	}
 }
+
