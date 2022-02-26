@@ -15,6 +15,7 @@
 #include "boost/archive/text_oarchive.hpp"
 
 #include "ObjectComponent.h"
+
 /*
 nuget
 
@@ -31,7 +32,6 @@ double a = 0;
 double b = 0;
 double delta_time = 0;
 
-
 int main(int argc, char* argv[])
 {
 	double TIME = 0;
@@ -41,16 +41,10 @@ int main(int argc, char* argv[])
 
 	WindowData* main_window_data = new WindowData(main_window);
 
-	ObjectComponent::Object* o = new ObjectComponent::Object();
-	ObjectComponent::Component* c = new ObjectComponent::Component();
-	ObjectComponent::DerivedComponent* dc = new ObjectComponent::DerivedComponent();
+	
+	std::fstream myfile;
 
-
-	o->AddComponent(c);
-	o->AddComponent(dc);
-
-
-	std::cout << c->GetComponent<ObjectComponent::DerivedComponent>("BruhMoment")->b;
+	
 	//mainloop
 	while (main_window->Running)
 	{
@@ -59,7 +53,7 @@ int main(int argc, char* argv[])
 		//performance stuff
 		a = SDL_GetPerformanceCounter();
 
-		//execute main event loop
+		//update main event loop
 		Input::UpdateMainInput();
 
 		//update game

@@ -2,79 +2,32 @@
 
 #include <filesystem>
 
-ObjectGroup::~ObjectGroup()
+SceneManager::ObjectGroup::ObjectGroup()
 {
-	//delete all objects in vector
-	int i = 0;
-	for (ObjectComponent::Object* o : this->objects)
+	this->object_group = new std::vector<ObjectComponent::ObjectComponent*>();
+}
+
+SceneManager::ObjectGroup::~ObjectGroup()
+{
+	this->object_group->clear();
+	delete this->object_group;
+}
+
+//manipulating the object group list
+void SceneManager::ObjectGroup::AddObject(ObjectComponent::ObjectComponent* o)
+{
+	this->object_group->push_back(o);
+}
+void SceneManager::ObjectGroup::RemoveObject(std::string name)
+{
+	for (int i = 0; i < this->object_group->size(); i++)
 	{
-		if (o != nullptr)
+		if (this->object_group->at(i) != nullptr)
 		{
-			delete o;
-		}
-		i++;
-	}
-}
-//add object to object group
-void ObjectGroup::AddObject(ObjectComponent::Object* o)
-{
-	this->objects.push_back(o);
-}
-//remove object from object group
-void ObjectGroup::RemoveObject(std::string name)
-{
-	int i = 0;
-	for (ObjectComponent::Object* o : this->objects)
-	{
-		if (o != nullptr)
-		{
-			delete o;
-			this->objects.erase(this->objects.begin() + i);
-		}
-		i++;
-	}
-}
-//delete all objects and clear the object group
-void ObjectGroup::Clear()
-{
-	this->objects.clear();
-}
-
-
-
-
-
-
-
-SceneManager::SceneManager()
-{
-	this->object_main = new ObjectGroup();
-	this->object_static = new ObjectGroup();
-}
-SceneManager::~SceneManager()
-{
-	delete this->object_main;
-	delete this->object_static;
-}
-//updaring and rendering all objects and their components
-void SceneManager::Update(double delta_time)
-{
-	for (ObjectComponent::Object* o : this->object_main->objects)
-	{
-		if (o != nullptr)
-		{
-			o->Update(delta_time);
+			if (this->object_group->at(i)->name == name)
+			{
+				this->object_group->erase(this->object_group->begin() + i);
+			}
 		}
 	}
 }
-void SceneManager::Draw(double delta_time)
-{
-	for (ObjectComponent::Object* o : this->object_main->objects)
-	{
-		if (o != nullptr)
-		{
-			o->Draw(delta_time);
-		}
-	}
-}
-

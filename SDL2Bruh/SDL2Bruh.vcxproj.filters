@@ -34,7 +34,10 @@
     <ClCompile Include="WindowData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BC_Transformation.cpp">
+    <ClCompile Include="TestSerialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,7 +69,10 @@
     <ClInclude Include="WindowData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BC_Transformation.h">
+    <ClInclude Include="TestSerialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
